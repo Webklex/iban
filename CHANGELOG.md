@@ -16,4 +16,4 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## 1.0.0 - 2023-02-28
 ### Added
-- initial release
+- Initial release

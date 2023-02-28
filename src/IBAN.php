@@ -16,20 +16,52 @@ namespace Webklex\IBAN;
 use Webklex\IBAN\Exceptions\IbanCalculationException;
 use Webklex\IBAN\Exceptions\InvalidCountryCodeException;
 
+/**
+ * Class IBAN
+ *
+ * @package Webklex\IBAN
+ * @example IBAN::make("123456789", "10000000", "de")->calculate();
+ */
 class IBAN {
-
+    /**
+     * @var string $alphabet The alphabet used for the IBAN calculation
+     */
     private static string $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+    /**
+     * @var string $account_number The account number
+     */
     protected string $account_number;
 
+    /**
+     * @var string $sort_code The bank sort code
+     */
     protected string $sort_code;
 
+    /**
+     * @var string $country The country code
+     */
     protected string $country;
 
+    /**
+     * IBAN constructor.
+     * @param string $account_number
+     * @param string $sort_code
+     * @param string $country
+     *
+     * @return IBAN
+     * @throws InvalidCountryCodeException
+     */
     public static function make(string $account_number, string $sort_code, string $country): IBAN {
         return (new self())->setAccountNumber($account_number)->setSortCode($sort_code)->setCountry($country);
     }
 
+    /**
+     * Calculate the IBAN
+     *
+     * @return string
+     * @throws IbanCalculationException
+     */
     public function calculate():string {
         $iban_raw = $this->sort_code.$this->account_number.$this->country;
         if(strlen($iban_raw) == 24){
@@ -43,6 +75,8 @@ class IBAN {
     }
 
     /**
+     * Get the current country code
+     *
      * @return string
      */
     public function getCountry(): string {
@@ -50,6 +84,7 @@ class IBAN {
     }
 
     /**
+     * Set a new country code and calculate its representation
      * @param string $country
      *
      * @return IBAN
@@ -69,6 +104,8 @@ class IBAN {
     }
 
     /**
+     * Get the current bank sort code
+     *
      * @return string
      */
     public function getSortCode(): string {
@@ -76,7 +113,9 @@ class IBAN {
     }
 
     /**
+     * Set a new bank sort code
      * @param string $sort_code
+     *
      * @return IBAN
      */
     public function setSortCode(string $sort_code): IBAN {
@@ -85,6 +124,8 @@ class IBAN {
     }
 
     /**
+     * Get the current account number
+     *
      * @return string
      */
     public function getAccountNumber(): string {
@@ -92,7 +133,9 @@ class IBAN {
     }
 
     /**
+     * Set a new account number and pad it with leading zeros if needed
      * @param string $account_number
+     *
      * @return IBAN
      */
     public function setAccountNumber(string $account_number): IBAN {
